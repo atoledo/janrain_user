@@ -1,0 +1,60 @@
+<?php
+/**
+ * @file
+ * Janrain User module file.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function janrain_user_menu() {
+  $menu = array();
+
+  $menu['admin/config/people/janrain-user'] = array(
+    'title' => 'Janrain',
+    'description' => 'Integrate Janrain social login, registration, single sign on, and social sharing capabilities into your drupal site.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('janrain_user_config_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'janrain_user.admin.inc',
+  );
+
+  $menu['admin/config/people/janrain-user/settings'] = array(
+    'title' => 'Janrain Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'description' => 'Integrate Janrain social login, registration, single sign on, and social sharing capabilities into your drupal site.',
+  );
+
+  $menu['admin/config/people/janrain-user/forms'] = array(
+    'title' => 'Build Janrain forms',
+    'description' => 'Load form definitions from Janrain Flow',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('janrain_user_build_forms'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'janrain_user.admin.inc',
+    'weight' => 1,
+  );
+
+  $menu['admin/config/people/janrain-user/available-forms'] = array(
+    'title' => 'Janrain Available forms',
+    'description' => 'Displays the current loaded Janrain forms from configured Flow',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('janrain_user_available_forms'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'janrain_user.admin.inc',
+    'weight' => 1,
+  );
+
+  // Temp callback for creating janrain form api. Should be converted to blocks
+  $menu['janrain/register'] = array(
+    'title' => 'Janrain Register',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('janrain_user_temp_registration_form'),
+    'access callback' => 'user_register_access',
+    'file' => 'includes/janrain_user.forms.inc',
+  );
+
+  return $menu;
+}

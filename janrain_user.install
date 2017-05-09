@@ -1,0 +1,115 @@
+<?php
+/**
+ * @file
+ * Janrain_user.install file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function janrain_user_install() {
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function janrain_user_uninstall() {
+  $module_variables = array();
+  global $conf;
+  foreach (array_keys($conf) as $key) {
+    // Find variables that have the module prefix.
+    if (strpos($key, 'janrain_user') === 0) {
+      $module_variables[] = $key;
+      variable_del($key);
+    }
+  }
+}
+
+/**
+ * Implements hook_schema().
+ */
+function janrain_user_schema() {
+  $schema = array();
+
+  $schema['janrain_user_forms'] = array(
+    'description' => 'Janrain User Forms.',
+    'fields' => array(
+      'ju_form_id' => array(
+        'description' => 'Janrain form id in Drupal',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'ju_form_name' => array(
+        'description' => 'Janrain form name',
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 64,
+      ),
+    ),
+    'primary key' => array('ju_form_id'),
+    'unique keys' => array(
+      'ju_form_name' => array('ju_form_name'),
+    ),
+  );
+
+  $schema['janrain_user_fields'] = array(
+    'description' => 'Janrain User Forms.',
+    'fields' => array(
+      'ju_field_id' => array(
+        'description' => 'Janrain field id in Drupal',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'ju_field_name' => array(
+        'description' => 'Janrain field name',
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 64,
+      ),
+      'ju_field_type' => array(
+        'description' => 'Janrain field type',
+        'type' => 'varchar',
+        'length' => 64,
+      ),
+      'ju_field_required' => array(
+        'description' => 'Janrain field required',
+        'type' => 'int',
+        'size' => 'tiny',
+      ),
+    ),
+    'primary key' => array('ju_field_id'),
+    'unique keys' => array(
+      'ju_field_name' => array('ju_field_name'),
+    ),
+  );
+
+  $schema['janrain_user_form_fields'] = array(
+    'description' => 'Janrain User Forms.',
+    'fields' => array(
+      'ju_ffid' => array(
+        'description' => 'Janrain form field id in Drupal',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'ju_form_id_fk' => array(
+        'description' => 'Janrain form id in Drupal',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'ju_field_id_fk' => array(
+        'description' => 'Janrain field id in Drupal',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('ju_ffid'),
+  );
+
+  return $schema;
+}

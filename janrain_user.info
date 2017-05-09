@@ -1,0 +1,7 @@
+name = Janrain User
+description = Janrain User integration module.
+package = Janrain
+core = 7.x
+configure = admin/config/people/janrain-user
+
+files[] = includes/JanrainCAPI.inc
